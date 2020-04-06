@@ -87,24 +87,20 @@ describe("Projects", () => {
         techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
       });
 
-    const response = await request(app)
+    await request(app)
       .put(`/repositories/${repository.body.id}`)
       .send({
         likes: 15
-      });
-
-    expect(response.body).toMatchObject({
-      likes: 0
-    });
+      }).expect(400);    
   });
 
   it("should be able to delete the repository", async () => {
     const response = await request(app)
       .post("/repositories")
       .send({
-        title: "Front-end em React",
-        description: "Um software para listagem de projetos em React",
-        owner: "Diego Fernandes"
+        url: "https://github.com/Rocketseat/umbriel",
+        title: "Umbriel",
+        techs: ["Node", "Express", "TypeScript"]
       });
 
     await request(app)
