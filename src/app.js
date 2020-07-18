@@ -11,13 +11,14 @@ app.use('/repositories/:id', validId);
 
 const repositories = [];
 
-
 function validBody(request, response, next) {
-  const {title, url, techs} = request.body;
-  if (title && url && Array.isArray(techs)) {
-    return next();
+  const {title, url, techs, likes} = request.body;
+  if (likes) {
+      return response.status(400).json({"error": "Provide a valid body with title, url and techs (array)!"});
+  }else if (title && url && Array.isArray(techs)) {
+      return next();
   } else {
-    return response.status(400).json({"error": "Provide a valid body with title, url and techs (array)!"});
+      return response.status(400).json({"error": "Provide a valid body with title, url and techs (array)!"});
   }
 }
 
