@@ -78,21 +78,21 @@ describe("Projects", () => {
       .expect(400);
   });
 
-  it("should not be able to update repository likes manually", async () => {
-    const repository = await request(app)
-      .post("/repositories")
-      .send({
-        url: "https://github.com/Rocketseat/umbriel",
-        title: "Umbriel",
-        techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
-      });
+    it("should not be able to update repository likes manually", async () => {
+        const repository = await request(app)
+            .post("/repositories")
+            .send({
+                url: "https://github.com/Rocketseat/umbriel",
+                title: "Umbriel",
+                techs: ["React", "ReactNative", "TypeScript", "ContextApi"]
+            });
 
-    await request(app)
-      .put(`/repositories/${repository.body.id}`)
-      .send({
-        likes: 15
-      }).expect(400);    
-  });
+        await request(app)
+            .put(`/repositories/${repository.body.id}`)
+            .send({
+                likes: 15
+            }).expect(400);
+    });
 
   it("should be able to delete the repository", async () => {
     const response = await request(app)

@@ -13,9 +13,7 @@ const repositories = [];
 
 function validBody(request, response, next) {
   const {title, url, techs, likes} = request.body;
-  if (likes) {
-      return response.status(400).json({"error": "Provide a valid body with title, url and techs (array)!"});
-  }else if (title && url && Array.isArray(techs)) {
+  if (title && url && Array.isArray(techs) && !likes) {
       return next();
   } else {
       return response.status(400).json({"error": "Provide a valid body with title, url and techs (array)!"});
@@ -54,10 +52,10 @@ app.post("/repositories", validBody, (request, response) => {
 
 app.put("/repositories/:id", validBody, (request, response) => {
     const { id } = request.params;
-    const {title, url, techs} = request.body;
+    const {title, url, techs, likes} = request.body;
     const repositoryIndex = repositories.findIndex(repository => repository.id === id);    
 
-    if (repositoryIndex < 0){
+    if (repositoryIndex < 0 || likes){
       return response.status(400).json({"error": "The provided ID doesn't exists"})
     } else {
         const { likes } = repositories[repositoryIndex];
